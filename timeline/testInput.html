@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+     <input type="text" name="timeline" id="timeline" value=""/>timeline
+     <input type="text" name="username" id="username" value=""/>username
+     <input type="button" name="submit" id="submit" value="post!"/>
+      <input type="button" name="display" id="display" value="display!"/>
+     Posted timeline:
+     <div class="displayTimeline" name="displayTimeline" id="displayTimeline">
+     </div>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var storedTimeline;
+		// $("#submit").click(function() {
+		// 	$.ajax({
+		// 		url: 'insertTimeline.php',
+		// 		type: 'POST',
+		// 		data: "userWords="+$("#timeline").val()+"&user_name="+$("#username").val(),
+		// 		success: function(response){
+		// 			alert("success!");
+		// 		},
+		// 		error: function(response) {
+		// 			alert("error");
+		// 		}
+		// 	})
+		// 	.done(function() {
+		// 		console.log("success");
+		// 	})
+		// 	.fail(function() {
+		// 		console.log("error");
+		// 	})
+		// 	.always(function() {
+		// 		console.log("complete");
+		// 	});
+			
+		// });
+		$("#display").click(function() {
+			/* Act on the event */
+		
+		$.ajax({
+			url: 'displayTimeline.php',
+			type: 'POST',
+			data:"user_name="+$("#username").val(),
+			success: function(response){
+				var json_response = $.parseJSON(response);
+				storedTimeline="~";
+				for(var i=0; i<json_response.status.length; i++){
+						storedTimeline+= " "+json_response.status[i];
+						}
+				$("#displayTimeline").html(storedTimeline).show();
+				alert(storedTimeline);
+			},
+			error: function(response){
+				var json_response = $.parseJSON(response);
+				alert(json_response.status);
+				$("#displayTimeline").html(response).show();	
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		});
+	});
+	</script>
+	</body>
+	</html>

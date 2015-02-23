@@ -1,0 +1,2 @@
+The html and php files are for the WebView, where I passed user's timeline data into a website running on ec2 instance, after which it goes through a word cloud generator and displays that in the webview in the app.
+For more details please contact the repository owner.

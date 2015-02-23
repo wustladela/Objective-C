@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    </head>
+    <body>
+     
+     Username:<input width="48" height="48" type="text" name="username" id="username" value="" style="height: 50px; width: 100px;"/>
+      <input type="button" name="display" id="display" value="display word cloud!" style="height: 50px;"/>
+     <div class="displayTimeline" name="displayTimeline" id="displayTimeline">
+     </div>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		var storedTimeline;
+		
+		$("#display").click(function() {
+			/* Act on the event */
+		
+		$.ajax({
+			url: 'displayTimeline.php',
+			type: 'POST',
+			data:"user_name="+$("#username").val(),
+			success: function(response){
+				var json_response = $.parseJSON(response);
+				storedTimeline="~";
+				for(var i=0; i<json_response.status.length; i++){
+						storedTimeline+= " "+json_response.status[i];
+						}
+				$("#displayTimeline").html(storedTimeline).show();
+				window.location.replace("http://www.jasondavies.com/wordcloud/#http%3A%2F%2Fec2-54-183-122-44.us-west-1.compute.amazonaws.com%2F~gaoadela%2F436final%2FseeWordCloud.html");
+			},
+			error: function(response){
+				var json_response = $.parseJSON(response);
+				alert(json_response.status);
+				$("#displayTimeline").html(response).show();
+
+			}
+		})
+		.done(function() {
+			console.log("success");
+		})
+		.fail(function() {
+			console.log("error");
+		})
+		.always(function() {
+			console.log("complete");
+		});
+		});
+	});
+	</script>
+	</body>
+	</html>
